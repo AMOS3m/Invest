@@ -166,6 +166,19 @@ button.submit:hover{
     background:#00f2fe;
 }
 
+.remember-box{
+    display:flex;
+    align-items:center;
+    margin-top:5px;
+    margin-left:10px;
+    font-size:0.95rem;
+}
+
+.remember-box input{
+    margin-right:8px;
+    transform:scale(1.1);
+}
+
 .plans{
     background:white;
     border-radius:15px;
@@ -243,19 +256,35 @@ button.submit:hover{
 
     <!-- LOGIN FORM -->
     <form id="login-form" class="active">
+
         <input type="email" id="login-email" placeholder="Email" required>
+
         <input type="password" id="login-password" placeholder="Password" required>
 
+        <!-- REMEMBER ME -->
+        <div class="remember-box">
+            <input type="checkbox" id="remember-me">
+            <label for="remember-me">Remember Me</label>
+        </div>
+
         <button type="submit" class="submit">Login</button>
+
     </form>
 
     <!-- REGISTER FORM -->
     <form id="register-form">
+
         <input type="text" id="register-name" placeholder="Full Name" required>
+
         <input type="email" id="register-email" placeholder="Email" required>
+
         <input type="password" id="register-password" placeholder="Password" required>
 
+        <!-- CONFIRM PASSWORD -->
+        <input type="password" id="confirm-password" placeholder="Confirm Your Password" required>
+
         <button type="submit" class="submit">Register</button>
+
     </form>
 
 </div>
@@ -295,14 +324,16 @@ button.submit:hover{
 
 // CUSTOM ALERT FUNCTION
 function showAlert(message){
+
     const alertBox = document.getElementById('custom-alert');
 
     alertBox.textContent = message;
+
     alertBox.classList.add('show');
 
     setTimeout(() => {
         alertBox.classList.remove('show');
-    }, 3000);
+    },3000);
 }
 
 // FORM TOGGLE
@@ -313,23 +344,28 @@ const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 
 loginBtn.addEventListener('click', () => {
+
     loginBtn.classList.add('active');
     registerBtn.classList.remove('active');
 
     loginForm.classList.add('active');
     registerForm.classList.remove('active');
+
 });
 
 registerBtn.addEventListener('click', () => {
+
     registerBtn.classList.add('active');
     loginBtn.classList.remove('active');
 
     registerForm.classList.add('active');
     loginForm.classList.remove('active');
+
 });
 
 // CHECK IF PLAN IS CHOSEN
 function investmentPlanChosen(){
+
     const selectedPlan = document.getElementById('plan').value;
 
     if(selectedPlan === ''){
@@ -340,14 +376,80 @@ function investmentPlanChosen(){
     return true;
 }
 
+// PASSWORD VALIDATION
+function validPassword(password){
+
+    // Minimum 8 chars with letters and numbers
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    return passwordPattern.test(password);
+}
+
+// REGISTER SUBMIT
+registerForm.addEventListener('submit',(e)=>{
+
+    e.preventDefault();
+
+    const name = document.getElementById('register-name').value.trim();
+
+    const email = document.getElementById('register-email').value.trim();
+
+    const password = document.getElementById('register-password').value.trim();
+
+    const confirmPassword = document.getElementById('confirm-password').value.trim();
+
+    if(name === '' || email === '' || password === '' || confirmPassword === ''){
+
+        showAlert('Please fill in all registration fields.');
+        return;
+    }
+
+    if(!validPassword(password)){
+
+        showAlert('Password must be at least 8 characters and contain letters and numbers.');
+        return;
+    }
+
+    if(password !== confirmPassword){
+
+        showAlert('Passwords do not match.');
+        return;
+    }
+
+    if(!investmentPlanChosen()){
+        return;
+    }
+
+    // SAVE USER DATA
+    localStorage.setItem('registeredUserEmail', email);
+
+    localStorage.setItem('registeredUserPassword', password);
+
+    localStorage.setItem('registeredUserName', name);
+
+    showAlert('Registration successful! Redirecting...');
+
+    setTimeout(() => {
+
+        window.location.href = "invest.html";
+
+    },1500);
+
+});
+
 // LOGIN SUBMIT
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit',(e)=>{
+
     e.preventDefault();
 
     const email = document.getElementById('login-email').value.trim();
+
     const password = document.getElementById('login-password').value.trim();
 
+    const rememberMe = document.getElementById('remember-me').checked;
+
     if(email === '' || password === ''){
+
         showAlert('Please fill in all login fields.');
         return;
     }
@@ -356,27 +458,44 @@ loginForm.addEventListener('submit', (e) => {
         return;
     }
 
-    window.location.href = "invest.html";
-});
+    // GET REGISTERED USER
+    const savedEmail = localStorage.getItem('registeredUserEmail');
 
-// REGISTER SUBMIT
-registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+    const savedPassword = localStorage.getItem('registeredUserPassword');
 
-    const name = document.getElementById('register-name').value.trim();
-    const email = document.getElementById('register-email').value.trim();
-    const password = document.getElementById('register-password').value.trim();
+    // CHECK IF USER REGISTERED
+    if(savedEmail === null || savedPassword === null){
 
-    if(name === '' || email === '' || password === ''){
-        showAlert('Please fill in all registration fields.');
+        showAlert('You must register first.');
         return;
     }
 
-    if(!investmentPlanChosen()){
+    // VALIDATE LOGIN
+    if(email !== savedEmail || password !== savedPassword){
+
+        showAlert('Invalid email or password.');
         return;
     }
 
-    window.location.href = "invest.html";
+    // REMEMBER ME
+    if(rememberMe){
+
+        localStorage.setItem('rememberMe', 'true');
+
+    }else{
+
+        localStorage.removeItem('rememberMe');
+
+    }
+
+    showAlert('Login successful! Redirecting...');
+
+    setTimeout(() => {
+
+        window.location.href = "invest.html";
+
+    },1500);
+
 });
 
 // CALCULATE RETURNS
@@ -389,6 +508,7 @@ function calculateReturn(){
     const resultDiv = document.getElementById('return-result');
 
     if(isNaN(amount) || amount <= 0){
+
         resultDiv.textContent = "Please enter a valid amount.";
         return;
     }
@@ -396,18 +516,22 @@ function calculateReturn(){
     let valid = false;
 
     if(plan === 30 && amount >= 500 && amount <= 1000){
+
         valid = true;
     }
 
     else if(plan === 25 && amount >= 2000 && amount <= 10000){
+
         valid = true;
     }
 
     else if(plan === 20 && amount >= 10000){
+
         valid = true;
     }
 
     if(!valid){
+
         resultDiv.textContent = "Amount does not match the selected plan range.";
         return;
     }
@@ -420,4 +544,4 @@ function calculateReturn(){
 </script>
 
 </body>
-</html>
+            </html>
