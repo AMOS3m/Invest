@@ -4,125 +4,272 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invest Smart | Make Investment</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-    * { box-sizing: border-box; margin:0; padding:0; font-family:'Poppins', sans-serif; }
 
-    body {
-        background: #f5f7fb;
-        color: #333;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Poppins', sans-serif;
+}
 
-    .invest-form-container {
-        background: white;
-        padding: 40px 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        max-width: 400px;
-        width: 100%;
-        text-align: center;
-    }
+body{
+    background:#f5f7fb;
+    color:#333;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
 
-    .invest-form-container h2 {
-        color: #4facfe;
-        margin-bottom: 20px;
-        font-size: 2rem;
-    }
+.invest-form-container{
+    background:white;
+    padding:40px 30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    max-width:400px;
+    width:100%;
+    text-align:center;
+}
 
-    .invest-form-container input {
-        width: 100%;
-        padding: 12px 15px;
-        margin-bottom: 15px;
-        border-radius: 50px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-        outline: none;
-    }
+.invest-form-container h2{
+    color:#4facfe;
+    margin-bottom:20px;
+    font-size:2rem;
+}
 
-    .invest-form-container input:focus {
-        border-color: #4facfe;
-    }
+.invest-form-container input{
+    width:100%;
+    padding:12px 15px;
+    margin-bottom:15px;
+    border-radius:50px;
+    border:1px solid #ccc;
+    font-size:1rem;
+    outline:none;
+}
 
-    .invest-form-container button {
-        padding: 12px 20px;
-        background: #4facfe;
-        color: white;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 1.1rem;
-        font-weight: 600;
-        transition: 0.3s;
-        width: 100%;
-    }
+.invest-form-container input:focus{
+    border-color:#4facfe;
+}
 
-    .invest-form-container button:hover {
-        background: #00f2fe;
-    }
+.invest-form-container button{
+    padding:12px 20px;
+    background:#4facfe;
+    color:white;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:1.1rem;
+    font-weight:600;
+    transition:0.3s;
+    width:100%;
+}
 
-    .confirmation {
-        margin-top: 20px;
-        font-size: 1.1rem;
-        color: green;
-        display: none;
-    }
+.invest-form-container button:hover{
+    background:#00f2fe;
+}
+
+.confirmation{
+    margin-top:20px;
+    font-size:1.1rem;
+    color:green;
+    display:none;
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    background:white;
+    width:90%;
+    max-width:400px;
+    padding:30px 25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    display:none;
+    z-index:1000;
+    text-align:center;
+}
+
+.popup h3{
+    color:#4facfe;
+    margin-bottom:15px;
+}
+
+.popup p{
+    margin-bottom:15px;
+    font-size:1rem;
+}
+
+.popup textarea{
+    width:100%;
+    height:120px;
+    padding:12px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    resize:none;
+    outline:none;
+    margin-bottom:15px;
+}
+
+.popup textarea:focus{
+    border-color:#4facfe;
+}
+
+.popup button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:50px;
+    background:#4facfe;
+    color:white;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.popup button:hover{
+    background:#00f2fe;
+}
+
+/* OVERLAY */
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    z-index:999;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="invest-form-container">
+
     <h2>Make an Investment</h2>
+
     <input type="number" id="amount" placeholder="Enter investment amount" required>
+
     <input type="tel" id="phone" placeholder="Enter phone number" required>
+
     <button id="invest-btn">Invest</button>
+
     <div class="confirmation" id="confirmation-msg"></div>
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+    <h3>Complete Payment</h3>
+
+    <p>
+        Pay to the following Till Number:
+    </p>
+
+    <h2 style="color:#00aaff; margin-bottom:20px;">
+        12345
+    </h2>
+
+    <textarea placeholder="Paste your M-Pesa message here..."></textarea>
+
+    <button id="close-popup">
+        Done
+    </button>
+
 </div>
 
 <script>
-    const investBtn = document.getElementById('invest-btn');
-    const confirmationMsg = document.getElementById('confirmation-msg');
 
-    investBtn.addEventListener('click', () => {
-        const amount = document.getElementById('amount').value.trim();
-        const phone = document.getElementById('phone').value.trim();
+const investBtn = document.getElementById('invest-btn');
 
-        // Check if fields are empty
-        if(amount === '' || phone === ''){
-            alert('Please fill in all fields.');
-            return;
-        }
+const popup = document.getElementById('popup');
 
-        // Validate phone number length
-        if(phone.length !== 10 || !/^\d+$/.test(phone)){
-            alert('Phone number must be exactly 10 digits.');
-            return;
-        }
+const overlay = document.getElementById('overlay');
 
-        // Send POST request to backend
-        fetch('/api/invest', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ amount, phone })
-        })
-        .then(res => res.json())
-        .then(data => {
-            confirmationMsg.style.display = 'block';
-            confirmationMsg.innerHTML = data.message;
+const closePopup = document.getElementById('close-popup');
 
-            // Clear inputs
-            document.getElementById('amount').value = '';
-            document.getElementById('phone').value = '';
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Error processing investment.');
-        });
-    });
+investBtn.addEventListener('click', () => {
+
+    const amount = document.getElementById('amount').value.trim();
+
+    const phone = document.getElementById('phone').value.trim();
+
+    // VALIDATION
+    if(amount === '' || phone === ''){
+        showCustomAlert('Please fill in all fields.');
+        return;
+    }
+
+    if(phone.length !== 10 || !/^\d+$/.test(phone)){
+        showCustomAlert('Phone number must be exactly 10 digits.');
+        return;
+    }
+
+    // SHOW POPUP
+    overlay.style.display = 'block';
+
+    popup.style.display = 'block';
+});
+
+/* CLOSE POPUP */
+closePopup.addEventListener('click', () => {
+
+    popup.style.display = 'none';
+
+    overlay.style.display = 'none';
+});
+
+/* CUSTOM ALERT */
+function showCustomAlert(message){
+
+    const alertBox = document.createElement('div');
+
+    alertBox.innerText = message;
+
+    alertBox.style.position = 'fixed';
+
+    alertBox.style.top = '30px';
+
+    alertBox.style.left = '50%';
+
+    alertBox.style.transform = 'translateX(-50%)';
+
+    alertBox.style.background = '#ff4d4d';
+
+    alertBox.style.color = 'white';
+
+    alertBox.style.padding = '15px 25px';
+
+    alertBox.style.borderRadius = '12px';
+
+    alertBox.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+
+    alertBox.style.zIndex = '2000';
+
+    alertBox.style.fontWeight = '600';
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 3000);
+}
+
 </script>
 
 </body>
