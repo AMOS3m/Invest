@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invest Smart | Explore</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#333;
+    min-height:100vh;
+}
+
+/* Navbar */
+nav{
+    background:#4facfe;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 20px;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+nav h1{
+    font-size:1.8rem;
+}
+
+/* MENU ICON */
+.menu-icon{
+    font-size:2rem;
+    cursor:pointer;
+    user-select:none;
+}
+
+/* Dropdown Menu */
+.dropdown-menu{
+    position:absolute;
+    top:70px;
+    right:20px;
+    background:white;
+    width:220px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    overflow:hidden;
+    display:none;
+    animation:fadeIn 0.3s ease;
+}
+
+.dropdown-menu a{
+    display:block;
+    padding:15px 20px;
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    border-bottom:1px solid #eee;
+    transition:0.3s;
+}
+
+.dropdown-menu a:last-child{
+    border-bottom:none;
+}
+
+.dropdown-menu a:hover{
+    background:#4facfe;
+    color:white;
+}
+
+.show{
+    display:block;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(-10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* Sections */
+section{
+    scroll-margin-top:100px;
+}
+
+/* Invest Section */
+#invest{
+    padding:80px 20px;
+    max-width:1000px;
+    margin:40px auto;
+    background:linear-gradient(90deg,#4facfe,#00f2fe);
+    color:white;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+#invest h2{
+    font-size:2.5rem;
+    margin-bottom:20px;
+}
+
+#invest h3{
+    font-size:1.5rem;
+    margin-top:30px;
+    margin-bottom:15px;
+}
+
+#invest p{
+    font-size:1.1rem;
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+.plans-overview{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    margin-top:20px;
+    gap:20px;
+}
+
+.plan-card{
+    background:white;
+    color:#333;
+    padding:20px;
+    border-radius:15px;
+    width:250px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    transition:transform 0.3s;
+}
+
+.plan-card:hover{
+    transform:translateY(-5px);
+}
+
+.plan-card h4{
+    color:#4facfe;
+    margin-bottom:10px;
+}
+
+/* Invest Button */
+.invest-btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 30px;
+    background:#ffcc00;
+    color:#333;
+    font-weight:600;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:1.2rem;
+    text-decoration:none;
+}
+
+.invest-btn:hover{
+    background:#ffaa00;
+}
+
+/* FAQ Section */
+#faqs{
+    padding:80px 20px;
+    background:#ffffff;
+    max-width:900px;
+    margin:50px auto;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+#faqs h2{
+    color:#4facfe;
+    margin-bottom:30px;
+    font-size:2rem;
+    text-align:center;
+}
+
+.faq-item{
+    margin-bottom:20px;
+    padding:20px;
+    border-radius:12px;
+    background:#f5f7fb;
+}
+
+.faq-item h3{
+    color:#333;
+    margin-bottom:10px;
+}
+
+.faq-item p{
+    line-height:1.7;
+}
+
+/* Testimonials */
+#testimonials{
+    padding:80px 20px;
+    max-width:1100px;
+    margin:50px auto;
+    text-align:center;
+}
+
+#testimonials h2{
+    color:#4facfe;
+    font-size:2rem;
+    margin-bottom:40px;
+}
+
+.testimonial-container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:25px;
+}
+
+.testimonial-card{
+    background:white;
+    width:300px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-5px);
+}
+
+.testimonial-card p{
+    line-height:1.7;
+    margin-bottom:15px;
+    font-style:italic;
+}
+
+.testimonial-card h4{
+    color:#4facfe;
+}
+
+/* Contact Section */
+#contact{
+    padding:80px 20px;
+    background:#e0f7fa;
+    color:#333;
+    border-radius:15px;
+    max-width:900px;
+    margin:50px auto;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+    position:relative;
+}
+
+#contact h2{
+    color:#00796b;
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+#contact p{
+    font-size:1.1rem;
+}
+
+/* Contact Popup */
+.contact-popup{
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    z-index:10000;
+    width:90%;
+    max-width:400px;
+}
+
+.contact-popup h3{
+    margin-bottom:20px;
+    color:#00796b;
+    text-align:center;
+}
+
+.contact-popup input,
+.contact-popup textarea{
+    width:100%;
+    padding:12px 15px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:1rem;
+}
+
+.contact-popup button{
+    padding:12px 20px;
+    border:none;
+    background:#4facfe;
+    color:white;
+    font-weight:600;
+    border-radius:50px;
+    cursor:pointer;
+    width:100%;
+    font-size:1rem;
+}
+
+.contact-popup button:hover{
+    background:#00f2fe;
+}
+
+.close-popup{
+    position:absolute;
+    top:10px;
+    right:15px;
+    font-size:1.2rem;
+    font-weight:bold;
+    cursor:pointer;
+    color:#333;
+}
+
+/* Footer */
+footer{
+    background:#4facfe;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+
+/* Responsive */
+@media(max-width:800px){
+
+    .plans-overview,
+    .testimonial-container{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    nav h1{
+        font-size:1.5rem;
+    }
+
+    .dropdown-menu{
+        width:180px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav>
+    <h1>Invest Smart</h1>
+
+    <!-- MENU ICON -->
+    <div class="menu-icon" id="menu-icon">
+        ☰
+    </div>
+
+    <!-- DROPDOWN MENU -->
+    <div class="dropdown-menu" id="dropdown-menu">
+        <a href="#">Home</a>
+        <a href="save.html">Invest</a>
+        <a href="#faqs">FAQs</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contacts</a>
+    </div>
+</nav>
+
+<!-- Invest Section -->
+<section id="invest">
+
+    <h2>Invest Smart – Grow Your Wealth</h2>
+
+    <p>
+        Welcome to Invest Smart! Explore our investment plans designed 
+        to help you grow your savings with reliable returns and secure options.
+    </p>
+
+    <h3>Why Choose Us?</h3>
+
+    <p>✅ Secure and transparent investment options.</p>
+    <p>✅ Flexible plans tailored to different budgets.</p>
+    <p>✅ Fast returns with clear terms and conditions.</p>
+
+    <h3>Our Investment Plans</h3>
+
+    <div class="plans-overview">
+
+        <div class="plan-card">
+            <h4>Plan A</h4>
+            <p>30% return after 2 weeks</p>
+            <p>Investment: $500 - $1000</p>
+        </div>
+
+        <div class="plan-card">
+            <h4>Plan B</h4>
+            <p>25% return after 1 month</p>
+            <p>Investment: $2000 - $10000</p>
+        </div>
+
+        <div class="plan-card">
+            <h4>Plan C</h4>
+            <p>20% return above 2 months</p>
+            <p>Investment: $10000+</p>
+        </div>
+
+    </div>
+
+    <a href="save.html" class="invest-btn">
+        Invest Now
+    </a>
+
+</section>
+
+<!-- FAQ Section -->
+<section id="faqs">
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+        <h3>How do I start investing?</h3>
+        <p>
+            Simply choose an investment plan that fits your budget 
+            and click the “Invest Now” button to get started.
+        </p>
+    </div>
+
+    <div class="faq-item">
+        <h3>Are my investments secure?</h3>
+        <p>
+            Yes. We prioritize transparency and security to ensure 
+            your investments remain safe and protected.
+        </p>
+    </div>
+
+    <div class="faq-item">
+        <h3>How long does it take to receive returns?</h3>
+        <p>
+            Returns depend on the selected investment plan. 
+            Each plan clearly states its duration and expected returns.
+        </p>
+    </div>
+
+    <div class="faq-item">
+        <h3>Can I invest more than once?</h3>
+        <p>
+            Absolutely! You can invest multiple times and choose 
+            different plans depending on your financial goals.
+        </p>
+    </div>
+
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials">
+
+    <h2>What Our Investors Say</h2>
+
+    <div class="testimonial-container">
+
+        <div class="testimonial-card">
+            <p>
+                “Invest Smart made investing simple and stress-free. 
+                I received my returns exactly as promised.”
+            </p>
+
+            <h4>— James M.</h4>
+        </div>
+
+        <div class="testimonial-card">
+            <p>
+                “The platform is easy to use and the support team 
+                is always ready to help. Highly recommended!”
+            </p>
+
+            <h4>— Sarah K.</h4>
+        </div>
+
+        <div class="testimonial-card">
+            <p>
+                “I started with a small amount and gradually increased 
+                my investments after seeing consistent results.”
+            </p>
+
+            <h4>— Daniel T.</h4>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Contact Section -->
+<section id="contact">
+
+    <h2>Contact Us</h2>
+
+    <p>
+        Click the email to send us a message:
+        <a href="#" id="contact-email">
+            support@investsmart.com
+        </a>
+    </p>
+
+</section>
+
+<!-- Contact Popup -->
+<div class="contact-popup" id="contact-popup">
+
+    <span class="close-popup" id="close-popup">
+        &times;
+    </span>
+
+    <h3>Contact Us</h3>
+
+    <input type="email" placeholder="Your Email" required>
+
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+
+    <button>Send Message</button>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; 2026 Invest Smart. All Rights Reserved.
+</footer>
+
+<script>
+
+/* MENU TOGGLE */
+const menuIcon = document.getElementById('menu-icon');
+const dropdownMenu = document.getElementById('dropdown-menu');
+
+menuIcon.addEventListener('click', () => {
+    dropdownMenu.classList.toggle('show');
+});
+
+/* CLOSE MENU WHEN CLICKED OUTSIDE */
+window.addEventListener('click', function(e){
+
+    if(
+        !menuIcon.contains(e.target) &&
+        !dropdownMenu.contains(e.target)
+    ){
+        dropdownMenu.classList.remove('show');
+    }
+});
+
+/* CONTACT POPUP */
+const emailLink = document.getElementById('contact-email');
+const popup = document.getElementById('contact-popup');
+const closeBtn = document.getElementById('close-popup');
+
+emailLink.addEventListener('click', function(e){
+    e.preventDefault();
+    popup.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', function(){
+    popup.style.display = 'none';
+});
+
+/* CLOSE POPUP OUTSIDE */
+window.addEventListener('click', function(e){
+
+    if(e.target == popup){
+        popup.style.display = 'none';
+    }
+});
+
+</script>
+
+</body>
+</html>

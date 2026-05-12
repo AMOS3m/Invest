@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Invest Smart | Withdraw Funds</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* CONTAINER */
+.withdraw-container{
+    width:100%;
+    max-width:450px;
+    background:white;
+    padding:35px 30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* HEADER */
+.withdraw-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.withdraw-header h1{
+    color:#4facfe;
+    margin-bottom:10px;
+}
+
+.withdraw-header p{
+    color:#666;
+    font-size:0.95rem;
+}
+
+/* INPUTS */
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#333;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:12px;
+    font-size:1rem;
+    outline:none;
+    transition:0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:#4facfe;
+}
+
+/* BALANCE CARD */
+.balance-card{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+    text-align:center;
+}
+
+.balance-card h2{
+    font-size:2rem;
+    margin-top:10px;
+}
+
+/* BUTTON */
+.withdraw-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:50px;
+    background:#4facfe;
+    color:white;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.withdraw-btn:hover{
+    background:#00c6ff;
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    width:90%;
+    max-width:350px;
+    padding:30px 25px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    text-align:center;
+    display:none;
+    z-index:1000;
+}
+
+.popup h3{
+    color:green;
+    margin-bottom:15px;
+}
+
+.popup p{
+    color:#555;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.popup button{
+    padding:12px 25px;
+    border:none;
+    border-radius:50px;
+    background:#4facfe;
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.popup button:hover{
+    background:#00c6ff;
+}
+
+/* OVERLAY */
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    z-index:999;
+}
+
+/* HOME BUTTON */
+.home-btn{
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:#4facfe;
+    color:white;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:50px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.home-btn:hover{
+    background:#00c6ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="index.html" class="home-btn">Home</a>
+
+<div class="withdraw-container">
+
+    <div class="withdraw-header">
+        <h1>Withdraw Funds</h1>
+        <p>Withdraw your investment profits directly to your M-Pesa account.</p>
+    </div>
+
+    <!-- BALANCE -->
+    <div class="balance-card">
+        <p>Available Balance</p>
+        <h2>Ksh 00.00</h2>
+    </div>
+
+    <!-- FORM -->
+    <div class="input-group">
+        <label>M-Pesa Number</label>
+        <input type="tel" id="phone" placeholder="07XXXXXXXX">
+    </div>
+
+    <div class="input-group">
+        <label>Withdrawal Amount</label>
+        <input type="number" id="amount" placeholder="Enter amount">
+    </div>
+
+    <div class="input-group">
+        <label>Withdrawal Method</label>
+        <select id="method">
+            <option value="">Choose Method</option>
+            <option>M-Pesa</option>
+        </select>
+    </div>
+
+    <button class="withdraw-btn" id="withdraw-btn">
+        Withdraw Now
+    </button>
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- SUCCESS POPUP -->
+<div class="popup" id="popup">
+
+    <h3>Withdrawal Submitted</h3>
+
+    <p>
+        Your withdrawal request has been received successfully.
+        Funds will be sent to your M-Pesa account shortly.
+    </p>
+
+    <button id="close-popup">
+        OK
+    </button>
+
+</div>
+
+<script>
+
+const withdrawBtn = document.getElementById('withdraw-btn');
+
+const popup = document.getElementById('popup');
+
+const overlay = document.getElementById('overlay');
+
+const closePopup = document.getElementById('close-popup');
+
+withdrawBtn.addEventListener('click', () => {
+
+    const phone = document.getElementById('phone').value.trim();
+
+    const amount = document.getElementById('amount').value.trim();
+
+    const method = document.getElementById('method').value;
+
+    // VALIDATION
+    if(phone === '' || amount === '' || method === ''){
+        showCustomAlert('Please fill in all withdrawal details.');
+        return;
+    }
+
+    if(!/^07\d{8}$/.test(phone)){
+        showCustomAlert('Enter a valid M-Pesa number.');
+        return;
+    }
+
+    if(Number(amount) <= 0){
+        showCustomAlert('Enter a valid withdrawal amount.');
+        return;
+    }
+
+    // SHOW SUCCESS POPUP
+    overlay.style.display = 'block';
+
+    popup.style.display = 'block';
+
+    // CLEAR FORM
+    document.getElementById('phone').value = '';
+
+    document.getElementById('amount').value = '';
+
+    document.getElementById('method').value = '';
+});
+
+/* CLOSE POPUP */
+closePopup.addEventListener('click', () => {
+
+    popup.style.display = 'none';
+
+    overlay.style.display = 'none';
+});
+
+/* CUSTOM ALERT */
+function showCustomAlert(message){
+
+    const alertBox = document.createElement('div');
+
+    alertBox.innerText = message;
+
+    alertBox.style.position = 'fixed';
+
+    alertBox.style.top = '30px';
+
+    alertBox.style.left = '50%';
+
+    alertBox.style.transform = 'translateX(-50%)';
+
+    alertBox.style.background = '#ff4d4d';
+
+    alertBox.style.color = 'white';
+
+    alertBox.style.padding = '15px 25px';
+
+    alertBox.style.borderRadius = '12px';
+
+    alertBox.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+
+    alertBox.style.zIndex = '2000';
+
+    alertBox.style.fontWeight = '600';
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 3000);
+}
+
+</script>
+
+</body>
+</html>
