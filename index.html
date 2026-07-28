@@ -175,6 +175,43 @@ section{
     background:#ffaa00;
 }
 
+
+    .stats{
+    padding:80px 20px;
+    text-align:center;
+    background:#ffffff;
+}
+
+.stats h2{
+    color:#4facfe;
+    margin-bottom:40px;
+}
+
+.stats-container{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+.stat-box{
+    width:220px;
+    background:#f5f7fb;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.stat-box h3{
+    font-size:2.7rem;
+    color:#4facfe;
+    margin-bottom:10px;
+}
+
+.stat-box p{
+    font-weight:600;
+}
+
 /* FAQ Section */
 #faqs{
     padding:80px 20px;
@@ -482,6 +519,35 @@ section{
     </a>
 
 </section>
+<section class="stats">
+
+    <h2>Trusted by Thousands</h2>
+
+    <div class="stats-container">
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="15000">0</h3>
+            <p>Happy Investors</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="4200">0</h3>
+            <p>Successful Investments</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="98">0</h3>
+            <p>% Client Satisfaction</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="5">0</h3>
+            <p>Years of Experience</p>
+        </div>
+
+    </div>
+
+</section>
 
 <!-- FAQ Section -->
 <section id="faqs">
@@ -675,6 +741,31 @@ window.addEventListener('click', function(e){
     if(e.target == popup){
         popup.style.display = 'none';
     }
+});
+const counters = document.querySelectorAll(".counter");
+
+counters.forEach(counter => {
+
+    counter.innerText = "0";
+
+    const updateCounter = () => {
+
+        const target = +counter.getAttribute("data-target");
+        const count = +counter.innerText;
+
+        const increment = Math.ceil(target / 100);
+
+        if(count < target){
+            counter.innerText = count + increment;
+            setTimeout(updateCounter,20);
+        }else{
+            counter.innerText = target.toLocaleString() + "+";
+        }
+
+    };
+
+    updateCounter();
+
 });
 
 </script>
