@@ -465,9 +465,12 @@ section{
     <!-- DROPDOWN MENU -->
     <div class="dropdown-menu" id="dropdown-menu">
         <a href="#">Home</a>
-        <a href="save.html">Invest</a>
-        <a href="Savings.html">My Savings</a>
-        <a href="withdraw.html">Withdraw</a>
+        <a href="#" onclick="checkLogin('save.html')">Invest</a>
+
+<a href="#" onclick="checkLogin('Savings.html')">My Savings</a>
+
+<a href="#" onclick="checkLogin('withdraw.html')">Withdraw</a>
+        
         <a href="#faqs">FAQs</a>
         <a href="#testimonials">Testimonials</a>
         <a href="#contact">Contacts</a>
@@ -766,7 +769,25 @@ counters.forEach(counter => {
 
     updateCounter();
 
-});
+};
+
+
+    function checkLogin(page){
+
+    // Change this to true after the user logs in
+    let loggedIn = localStorage.getItem("loggedIn");
+
+    if(loggedIn === "true"){
+        window.location.href = page;
+    }else{
+        // Remember where the user wanted to go
+        localStorage.setItem("redirectPage", page);
+
+        // Send them to login
+        window.location.href = "login.html";
+    }
+
+                             }
 
 </script>
 
