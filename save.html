@@ -541,6 +541,17 @@ function calculateReturn(){
     resultDiv.textContent = `Your return will be: Ksh ${returnAmount.toFixed(2)}`;
 }
 
+    localStorage.setItem("loggedIn","true");
+
+const page = localStorage.getItem("redirectPage");
+
+if(page){
+    localStorage.removeItem("redirectPage");
+    window.location.href = page;
+}else{
+    window.location.href = "index.html";
+}
+
 </script>
 
 </body>
